@@ -1,6 +1,3 @@
-```markdown
-# README
-
 ## Beskrivelse av datasettet
 Datasettet inneholder informasjon om transportarbeid og befolkningsendringer, med kontroll for region. Det inkluderer blant annet prosentvis endring i befolkningen, transportarbeid, samt en regioninndeling. Dataene er tilrettelagt for analyser som tar sikte på å undersøke hvordan endringer i befolkning påvirker transportarbeid, samtidig som regionenes unike karakteristikker kontrolleres.
 
@@ -31,5 +28,4 @@ I denne analysen blir dimensjonaliteten i datasettet redusert ved å tilfeldig f
 
 ## Kilde til datasettet
 Datasettet kommer fra interne registre og inneholder anonymiserte og bearbeidede data som er egnet for analyser knyttet til transport og befolkningsendringer. Kontakt prosjektansvarlig for ytterligere detaljer.
-```
 
