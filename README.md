@@ -12,7 +12,7 @@ avhengig variabel: "Trafikkarbeid"
 
 ### modeller og "Population_Percent_Change" sin koefisient med signifikansnivå
 - `transport_prediction_with_population_and_region.py`: 0.8704***
-- `region_population_ols_with_reduction.py`: -0.0678
+- `region_population_ols_with_reduction.py`:           -0.0678
 
 ## Innholdsfortegnelse
 
