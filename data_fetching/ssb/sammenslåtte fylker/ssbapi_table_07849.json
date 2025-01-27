@@ -1,0 +1,65 @@
+{"queryObj":{
+  "query": [
+    {
+      "code": "Region",
+      "selection": {
+        "filter": "agg:KommFylker",
+        "values": [
+          "F-31",
+          "F-32",
+          "F-03",
+          "F-34",
+          "F-33",
+          "F-39",
+          "F-40",
+          "F-42",
+          "F-11",
+          "F-46",
+          "F-15",
+          "F-50",
+          "F-18",
+          "F-55",
+          "F-56",
+          "F-21",
+          "F-22",
+          "F-23"
+        ]
+      }
+    },
+    {
+      "code": "KjoringensArt",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "1"
+        ]
+      }
+    },
+    {
+      "code": "DrivstoffType",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ]
+      }
+    },
+    {
+      "code": "ContentsCode",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "Personbil1"
+        ]
+      }
+    }
+  ],
+  "response": {
+    "format": "json-stat2"
+  }
+},"tableIdForQuery":"07849","postUrl":"https://data.ssb.no/api/v0/no/table/07849"}

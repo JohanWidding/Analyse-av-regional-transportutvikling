@@ -80,6 +80,7 @@ Fylkene som ble slått sammen var som følger:
 | Buskerud, Akershus og Østfold   | Viken                 | 01.01.2020            |
 | Troms og Finnmark               | Troms og Finnmark     | 01.01.2020            |
 
+Og senere oppløst:
 
 | Sammenslåtte fylker              | Oppløst til fylker            | Oppløsning fra |
 |----------------------------------|-------------------------------|----------------|
