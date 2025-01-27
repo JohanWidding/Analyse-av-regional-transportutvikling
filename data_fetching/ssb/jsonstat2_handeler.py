@@ -1,5 +1,5 @@
 import pandas as pd
-import json
+import itertools
 
 class JSONStat2Handler:
     def __init__(self, json_stat_data):
@@ -49,8 +49,7 @@ class JSONStat2Handler:
         Returns:
         - pd.DataFrame: A summarized DataFrame with the time column as index, and merged categories as columns.
         """
-        import pandas as pd
-        import itertools
+        
 
         # Extract dimensions and their sizes
         dimensions = self.json_stat_data["dimension"]
@@ -100,6 +99,80 @@ class JSONStat2Handler:
 
         # Set the time column as the index
         summary_df.index.name = time_column
+
+        return summary_df
+    
+
+    def process_to_dataframe(self, time_col, primary_col, merge_cols, secondary_col=None, value_col="value"):
+        """
+        Processes JSON-stat data into a clean DataFrame with an optional secondary category.
+
+        Parameters:
+        - time_col (str): Column to use as the time index (e.g., "Year").
+        - primary_col (str): The primary category column (e.g., "Region").
+        - merge_cols (list): List of columns to merge into a single category.
+        - secondary_col (str, optional): An optional secondary category column (e.g., "Indicator").
+        - value_col (str, optional): The name of the value column (default is "value").
+
+        Returns:
+        - pd.DataFrame: A summarized DataFrame with the time column as index.
+        """
+        if not merge_cols or len(merge_cols) < 1:
+            raise ValueError("merge_cols must contain at least one column.")
+
+        # Extract dimensions and their categories
+        dimensions = self.json_stat_data["dimension"]
+        sizes = self.json_stat_data["size"]
+
+        # Prepare a list of dimension names and their indices
+        dimension_names = list(dimensions.keys())
+        dimension_indices = [dimensions[dim]["category"]["index"] for dim in dimension_names]
+        dimension_labels = {dim: dimensions[dim]["category"]["label"] for dim in dimension_names}
+
+        # Create combinations of all indices
+        index_combinations = list(itertools.product(*dimension_indices))
+
+        # Map the `value` array to a DataFrame
+        values = self.json_stat_data.get("value", [])
+        data = []
+        for idx, combination in enumerate(index_combinations):
+            entry = {
+                dimension_names[i]: dimension_labels[dimension_names[i]].get(str(combination[i]), combination[i])
+                for i in range(len(combination))
+            }
+            entry[value_col] = values[idx]
+            data.append(entry)
+
+        df = pd.DataFrame(data)
+
+        # Ensure proper data types
+        df[time_col] = pd.to_numeric(df[time_col], errors="coerce")
+        if value_col in df.columns:
+            df[value_col] = pd.to_numeric(df[value_col], errors="coerce")
+
+        # Merge specified columns into a single category
+        df["MergedCategory"] = df[merge_cols].astype(str).agg("_".join, axis=1)
+
+        # Group data and summarize
+        group_by_cols = [time_col, primary_col]
+        if secondary_col:
+            group_by_cols.append(secondary_col)
+
+        summary_df = (
+            df.groupby(group_by_cols)[value_col]
+            .sum()
+            .unstack([primary_col, secondary_col] if secondary_col else primary_col)
+            .fillna(0)
+        )
+
+        # Flatten multi-index columns if necessary
+        if secondary_col:
+            summary_df.columns = [f"{primary}_{secondary}" for primary, secondary in summary_df.columns]
+        else:
+            summary_df.columns = [str(col) for col in summary_df.columns]
+
+        # Set the time column as the index
+        summary_df.index.name = time_col
 
         return summary_df
 
