@@ -50,7 +50,7 @@ panel_df = pd.concat([df_pop_stacked.set_index(['Tid', 'Fylke']),
                       df_private_cars_stacked.set_index(['Tid', 'Fylke']),
                       df_prod_stacked.set_index(['Tid', 'Fylke'])], axis=1).reset_index()
 
-panel_df = panel_df[panel_df['Tid'] <= 2017]
+
 panel_df = panel_df.sort_values(by=['Fylke', 'Tid'], ascending=[True, True])
 
 
@@ -65,4 +65,6 @@ df['Befolkning_pct_increase'] = (df['Befolkning'].shift(-1) - df['Befolkning']) 
 for column in columns_to_calculate:
     df[f"{column}_pct_increase"] = df[column].diff() / df[column].shift(1) * 100
 
-df.to_csv('data_fetching/summary_data.csv', index=False)
+df = df[df['Tid'] <= 2017]
+
+df.to_csv('data_fetching/ssb/summary_data.csv', index=False)
